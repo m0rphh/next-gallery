@@ -20,8 +20,6 @@ export default class extends React.Component {
     return (
       <Layout>
       <div className='mainHolder'>
-      <div className='list'>
-      <img className="logo" src='../static/img/goran-matejin-logo.svg' />
         {
           url.query.photoId &&
             <Modal
@@ -43,22 +41,6 @@ export default class extends React.Component {
           ))
         }
         <style jsx>{`
-          .list {
-
-            height: 100vh;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            }
-            .logo {
-              max-width: 250px;
-            }
-
-          .photo {
-            display: none;
-          }
 
           .photoLink {
             color: #333;
@@ -78,7 +60,6 @@ export default class extends React.Component {
             borderColor: blue;
           }
         `}</style>
-      </div>
       </div>
       </Layout>
     )

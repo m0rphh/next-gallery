@@ -9,17 +9,17 @@ import {
 
 
 export default ({ id }) => (
-
+<div className="container">
   <div className='photo'>
       <CloudinaryContext cloudName="dj6ppswvb">
-        <Image publicId={id}>
+        <Image publicId={id} className="img">
           <Transformation
             width='300'
             crop="scale"
           />
         </Image>
       </CloudinaryContext>
-
+  </div>
     <div className='sidebar'>
       <ul className='sidebarList'>
         <li>
@@ -28,16 +28,23 @@ export default ({ id }) => (
         </li>
       </ul>
     </div>
-
     <style jsx>{`
       .photo {
-        width: 800px;
         overflow: hidden;
-        height: 500px;
         display: inline-block;
       }
+      .img {
+        height: 500px;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        position: relative;
+        z-index: 10;
+      }
       .sidebar {
-        float: right;
         background: #fff;
         width: 200px;
         height: 500px;
