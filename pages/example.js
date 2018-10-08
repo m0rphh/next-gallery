@@ -1,10 +1,7 @@
 
 import React from 'react';
 import Router from 'next/router';
-import Link from 'next/link';
-import axios from 'axios';
 import fetch from 'isomorphic-unfetch';
-import Modal from '../components/modal';
 import {
   CloudinaryContext,
   Transformation,
@@ -23,37 +20,10 @@ export default class extends React.Component {
     }
   }
 
-  constructor(props) {
-    super(props)
-    this.onKeyDown = this.onKeyDown.bind(this)
-  }
-
-
-  // handling escape close
-  componentDidMount() {
-    document.addEventListener('keydown', this.onKeyDown)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown)
-  }
-
-  onKeyDown(e) {
-    if (!this.props.url.query.photoId) return
-    if (e.keyCode === 27) {
-      // this.props.url.back()
-        window.history.back()
-    }
-  }
-
-  dismissModal() {
-    Router.push('/example');
-  }
-
   showPhoto(e, id) {
     e.preventDefault();
     // Router.push(`/?photoId=https://res.cloudinary.com/dj6ppswvb/${id}`, `/photo?id=https://res.cloudinary.com/dj6ppswvb/${id}`)
-    Router.push(`/?photoId=${id}`, `/photo?id=${id}`)
+    Router.push(`/?photoId=${id}`, `/example/photo?id=${id}`)
   }
 
   render() {
@@ -61,14 +31,6 @@ export default class extends React.Component {
     return (
       <Layout title='Example page'>
         <div className='grid'>
-          {
-            url.query.id &&
-            <Modal
-              id={url.query.id}
-              onDismiss={() => this.dismissModal()}
-            />
-          }
-
           <CloudinaryContext cloudName="dj6ppswvb">
             {
               images.map(data => {
@@ -76,7 +38,7 @@ export default class extends React.Component {
                   <div className="responsive" key={data.public_id}>
 
                     <a
-                      href={(`/photo?id=https://res.cloudinary.com/dj6ppswvb/${data.public_id}`)}
+                      href={(`/example/photo?id=${data.public_id}`)}
                       onClick={(e) => this.showPhoto(e, data.public_id)}
                     >
 
