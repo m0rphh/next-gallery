@@ -6,6 +6,7 @@ import {
   Transformation,
   Image
 } from 'cloudinary-react';
+import { Facebook } from 'react-social-sharing'
 
 export default class extends React.Component {
   dismiss (e) {
@@ -22,7 +23,8 @@ export default class extends React.Component {
   }
 
   render () {
-    console.log(this.props.id)
+
+    // console.log('localhost:3000' + Router.asPath)
     return (
       <div ref={el => (this._shim = el)} className='shim' onClick={(e) => this.dismiss(e)}>
         <a onClick={(e) => this.goBack(e)}>Back</a>
@@ -36,6 +38,7 @@ export default class extends React.Component {
               />
             </Image>
           </CloudinaryContext>
+          <Facebook style={styles} link={'localhost:3000' + Router.asPath} />
         </div>
         <style jsx>{`
           .shim {
@@ -59,3 +62,6 @@ export default class extends React.Component {
     )
   }
 }
+const styles = {
+  background: 'transparent'
+};

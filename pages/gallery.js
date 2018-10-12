@@ -71,23 +71,6 @@ export default class GalleryPage extends React.Component {
                       href={(`/photo?id=${data.public_id}`)}
                       onClick={(e) => this.showPhoto(e, data.public_id)}
                     >
-                      <Modal
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                        open={this.state.modalOpen}
-                        onClose={this.handleClose}
-                      >
-                        <Image publicId={data.public_id}>
-                          <Transformation
-
-                            width={this.state.imageWidth}
-                            crop="scale"
-                          //  height="200"
-                          //  dpr="auto"
-                          //    responsive_placeholder="blank"
-                          />
-                        </Image>
-                      </Modal>
                       <Image publicId={data.public_id}>
                         <Transformation
 
