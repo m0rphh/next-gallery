@@ -1,102 +1,103 @@
 
 import React from 'react';
 import Router from 'next/router';
-import Link from 'next/link';
-import axios from 'axios';
 import fetch from 'isomorphic-unfetch';
-import Modal from '../components/modal';
 import {
   CloudinaryContext,
   Transformation,
   Image
 } from 'cloudinary-react';
+import Modal from '../components/modal'
 import Layout from '../components/layout'
+import Overdrive from 'react-overdrive'
 
-
-export default class extends React.Component {
+export default class ExamplePage extends React.Component {
 
   static async getInitialProps() {
     const res = await fetch('https://res.cloudinary.com/dj6ppswvb/image/list/b.json')
     const data = await res.json();
+
     return {
-      images: data.resources
+      images: data.resources,
     }
   }
 
   constructor(props) {
     super(props)
-    this.onKeyDown = this.onKeyDown.bind(this)
-  }
-
-
-  // handling escape close
-  componentDidMount() {
-    document.addEventListener('keydown', this.onKeyDown)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown)
-  }
-
-  onKeyDown(e) {
-    if (!this.props.url.query.photoId) return
-    if (e.keyCode === 27) {
-      // this.props.url.back()
-        window.history.back()
+    // this.onKeyDown = this.onKeyDown.bind(this)
+    this.state = {
+      id: ' '
     }
   }
 
-  dismissModal() {
-    Router.push('/example');
-  }
+  // handling escape close
+  // componentDidMount() {
+  //   document.addEventListener('keydown', this.onKeyDown)
+  // }
 
+  // componentWillUnmount() {
+  //   document.removeEventListener('keydown', this.onKeyDown)
+
+  // }
+
+  // onKeyDown(e) {
+  //   if (!this.props.url.query.photoId) return
+  //   if (e.keyCode === 27) {
+  //     window.history.back()
+  //   }
+  // }
   showPhoto(e, id) {
     e.preventDefault();
-    // Router.push(`/?photoId=https://res.cloudinary.com/dj6ppswvb/${id}`, `/photo?id=https://res.cloudinary.com/dj6ppswvb/${id}`)
-    Router.push(`/?photoId=${id}`, `/photo?id=${id}`)
-  }
+    Router.push(`/?photoId=${id}`, `/photo?id=${id}`);
 
+  }
+  dismissModal() {
+
+  }
   render() {
     const { url, images } = this.props
     return (
-      <Layout title='Example page'>
+      <Layout>
         <div className='grid'>
           {
-            url.query.id &&
+            url.query.photoId &&
             <Modal
-              id={url.query.id}
+              id={url.query.photoId}
               onDismiss={() => this.dismissModal()}
             />
           }
-
           <CloudinaryContext cloudName="dj6ppswvb">
             {
               images.map(data => {
+                const id = data.public_id;
                 return (
-                  <div className="responsive" key={data.public_id}>
+                  <Overdrive key={id} id={id.toString()} animationDelay={1} style={{ display: 'inline-block' }}>
+                    <div className="responsive" key={id}>
+                      <a
+                        href={(`/photo?id=${id}`)}
+                        onClick={(e) => this.showPhoto(e, id)}
+                      >
 
-                    <a
-                      href={(`/photo?id=https://res.cloudinary.com/dj6ppswvb/${data.public_id}`)}
-                      onClick={(e) => this.showPhoto(e, data.public_id)}
-                    >
+                        <Image publicId={id}>
+                          <Transformation
 
-                      <Image publicId={data.public_id}>
-                        <Transformation
-
-                          width='300'
-                          crop="scale"
-                        //  height="200"
-                        //  dpr="auto"
-                        //    responsive_placeholder="blank"
-                        />
-                      </Image>
-                    </a>
-                  </div>
+                            width='300'
+                            crop="scale"
+                          //  height="200"
+                          //  dpr="auto"
+                          //    responsive_placeholder="blank"
+                          />
+                        </Image>
+                      </a>
+                    </div>
+                  </Overdrive>
                 )
               })
             }
           </CloudinaryContext>
-					<style jsx>{`
+
+
+          <style jsx>{`
           .grid {
 
 

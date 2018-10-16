@@ -1,100 +1,95 @@
 
 import React from 'react';
 import Router from 'next/router';
-import Link from 'next/link';
-import axios from 'axios';
 import fetch from 'isomorphic-unfetch';
-import Modal from '../components/modal';
+// import Modal from '../components/modal';
 import {
   CloudinaryContext,
   Transformation,
   Image
 } from 'cloudinary-react';
-import Layout from '../components/layout'
+import Layout from '../components/layout';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import Overdrive from 'react-overdrive';
 
+export default class GalleryPage extends React.Component {
 
-export default class extends React.Component {
-
-  static async getInitialProps() {
-    const res = await fetch('https://res.cloudinary.com/dj6ppswvb/image/list/dev.json')
-    const data = await res.json();
-    return {
-      images: data.resources
-    }
-  }
 
   constructor(props) {
-    super(props)
-    this.onKeyDown = this.onKeyDown.bind(this)
+    super(props);
+    this.state = {
+      imageWidth: '300',
+      modalOpen: false
+    }
   }
+  handleOpen = () => {
+    this.setState({ modalOpen: true });
+  };
 
+  handleClose = () => {
+    this.setState({ modalOpen: false });
+  };
 
-  // handling escape close
   componentDidMount() {
-    document.addEventListener('keydown', this.onKeyDown)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown)
-  }
-
-  onKeyDown(e) {
-    if (!this.props.url.query.photoId) return
-    if (e.keyCode === 27) {
-      // this.props.url.back()
-      window.history.back()
+    if(window.innerWidth > 1000) {
+      this.setState({
+        imageWidth: '500'
+      })
     }
   }
 
-  dismissModal() {
-    Router.push('/example');
-  }
 
   showPhoto(e, id) {
     e.preventDefault();
-    // Router.push(`/?photoId=https://res.cloudinary.com/dj6ppswvb/${id}`, `/photo?id=https://res.cloudinary.com/dj6ppswvb/${id}`)
-    Router.push(`/?photoId=${id}`, `/photo?id=${id}`)
+    Router.push(`/?photoId=${id}`, `/photo?id=${id}`);
+    this.setState({ modalOpen: true });
   }
-
+  dismissModal() {
+    window.history.back()
+  }
   render() {
-    const { url, images } = this.props
+    const { url, images} = this.props
     return (
-      <Layout title='Example page'>
+      <Layout title='Gallery page'>
         <div className='grid'>
-          {
-            url.query.id &&
+          <Button type='button' onClick={this.handleOpen.bind(this)}>Open Modal</Button>
+          {/* {
+            url.query.photoId &&
             <Modal
-              id={url.query.id}
+              id={url.query.photoId}
               onDismiss={() => this.dismissModal()}
             />
-          }
+          } */}
 
           <CloudinaryContext cloudName="dj6ppswvb">
             {
               images.map(data => {
                 return (
+                  <Overdrive key={data.public_id} id={data.public_id.toString()} animationDelay={1} style={{ display: 'inline-block' }}>
                   <div className="responsive" key={data.public_id}>
-
                     <a
-                      href={(`/photo?id=https://res.cloudinary.com/dj6ppswvb/${data.public_id}`)}
+                      href={(`/photo?id=${data.public_id}`)}
                       onClick={(e) => this.showPhoto(e, data.public_id)}
                     >
-
                       <Image publicId={data.public_id}>
                         <Transformation
 
-                          width='300'
+                          width="300"
                           crop="scale"
                         //  height="200"
                         //  dpr="auto"
                         //    responsive_placeholder="blank"
                         />
                       </Image>
+
                     </a>
                   </div>
+                  </Overdrive>
                 )
               })
             }
+
           </CloudinaryContext>
           <style jsx>{`
           .grid {
@@ -133,5 +128,12 @@ export default class extends React.Component {
         </div>
       </Layout>
     )
+  }
+}
+GalleryPage.getInitialProps = async ({ req }) => {
+  const res = await fetch('https://res.cloudinary.com/dj6ppswvb/image/list/dev.json')
+  const data = await res.json();
+  return {
+    images: data.resources,
   }
 }

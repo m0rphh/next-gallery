@@ -38,13 +38,14 @@ export default withStyles(styles)(class MenuDrawer extends Component {
           label="Toggle menu"
           onClick={this.handleToggle}
         /> */}
-				<div style={{ position: 'absolute', left: 50, top: 50, zIndex: 100 }}>
+				<div style={{ position: 'absolute', right: 50, top: 50, zIndex: 100 }}>
 					<IconButton onClick={this.handleToggle} style={{ outline: 'none' }}>
 						<MenuIcon style={{ fontSize: 40, color: 'white', outline: 'none' }} />
 					</IconButton>
 				</div>
 				<Drawer open={this.state.open}
 					ModalProps={{ onBackdropClick: this.handleToggle }}
+					anchor="right"
 					variant="temporary"
 					classes={{ paper: styles.paper }}
 					{...this.props}

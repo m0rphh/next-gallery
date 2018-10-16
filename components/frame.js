@@ -5,32 +5,35 @@ import {
   Transformation,
   Image
 } from 'cloudinary-react'
-
+import Overdrive from 'react-overdrive'
 
 
 export default ({ id }) => (
-<div className="container">
-  <div className='photo'>
-      <CloudinaryContext cloudName="dj6ppswvb">
+  <CloudinaryContext cloudName="dj6ppswvb">
+    <Overdrive id={id.toString()} animationDelay={1} duration={500} style={{ display: 'inline-block' }}>
+      <div className='photo'>
         <Image publicId={id} className="img">
           <Transformation
-            width='300'
+            width='800'
             crop="scale"
           />
         </Image>
-      </CloudinaryContext>
-  </div>
+      </div>
+    </Overdrive>
+    <Overdrive id={id.toString()} animationDelay={2} duration={500} style={{ display: 'inline-block' }}>
     <div className='sidebar'>
       <ul className='sidebarList'>
         <li>
-          <Link><a href='/profile?id=nkzawa'>@nkzawa</a></Link>
-          - Great photo!
+          {/* <Link><a href='/profile?id=nkzawa'>@nkzawa</a></Link>
+          - Great photo! */}
         </li>
       </ul>
     </div>
+    </Overdrive>
+
     <style jsx>{`
       .photo {
-        overflow: hidden;
+
         display: inline-block;
       }
       .img {
@@ -53,6 +56,7 @@ export default ({ id }) => (
         padding: 20px;
         font-family: Monaco;
         font-size: 11px;
+        margin-right: 0;
       }
       .sidebarList {
         list-style-type: none;
@@ -60,5 +64,5 @@ export default ({ id }) => (
         padding: 0;
       }
     `}</style>
-  </div>
+  </CloudinaryContext >
 )
