@@ -20,18 +20,18 @@ export default ({ id }) => (
         </Image>
       </div>
     </Overdrive>
-    <Overdrive id={id.toString()} animationDelay={2} duration={500} style={{ display: 'inline-block' }}>
-    <div className='sidebar'>
+    <div>
+      {/*    <div className='sidebar'>
       <ul className='sidebarList'>
         <li>
-          {/* <Link><a href='/profile?id=nkzawa'>@nkzawa</a></Link>
-          - Great photo! */}
+           <Link><a href='/profile?id=nkzawa'>@nkzawa</a></Link>
+          - Great photo!
         </li>
       </ul>
     </div>
-    </Overdrive>
-
-    <style jsx>{`
+    */}
+    </div>
+      <style jsx>{`
       .photo {
 
         display: inline-block;
@@ -65,4 +65,4 @@ export default ({ id }) => (
       }
     `}</style>
   </CloudinaryContext >
-)
+    )

@@ -37,6 +37,7 @@ export default class extends React.Component {
 
     return (
         <Layout>
+          <img src='../static/img/goran-matejin-logo.svg' className="logo"/>
           {
             url.query.photoId &&
             <Modal
